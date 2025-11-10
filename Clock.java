@@ -68,8 +68,9 @@ public class Clock extends JFrame {
         }
     }
 
-    // ✅ Add this main method
+    
     public static void main(String[] args) {
-        new Clock(); // Creates and runs the clock
+        new Clock(); 
     }
 }
+
