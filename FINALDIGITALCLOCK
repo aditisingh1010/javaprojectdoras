@@ -1,0 +1,62 @@
+import javax.swing.*;
+import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+public class DigitalClock extends JFrame {
+
+    private JLabel timeLabel, dayLabel, dateLabel;
+    private SimpleDateFormat timeFormat, dayFormat, dateFormat;
+
+    public DigitalClock() {
+        setTitle("Digital Clock");
+        setSize(350, 200);
+        setLayout(new FlowLayout());
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        timeFormat = new SimpleDateFormat("hh:mm:ss a");
+        dayFormat = new SimpleDateFormat("EEEE");
+        dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+
+        timeLabel = new JLabel();
+        timeLabel.setFont(new Font("Verdana", Font.PLAIN, 50));
+        timeLabel.setForeground(new Color(0x00FF00));
+        timeLabel.setBackground(Color.black);
+        timeLabel.setOpaque(true);
+
+        dayLabel = new JLabel();
+        dayLabel.setFont(new Font("Ink Free", Font.PLAIN, 25));
+
+        dateLabel = new JLabel();
+        dateLabel.setFont(new Font("Ink Free", Font.PLAIN, 25));
+
+        add(timeLabel);
+        add(dayLabel);
+        add(dateLabel);
+
+        setVisible(true);
+        updateClock();
+    }
+
+    private void updateClock() {
+        Thread t = new Thread(() -> {
+            while (true) {
+                Calendar cal = Calendar.getInstance();
+                timeLabel.setText(timeFormat.format(cal.getTime()));
+                dayLabel.setText(dayFormat.format(cal.getTime()));
+                dateLabel.setText(dateFormat.format(cal.getTime()));
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
+    }
+
+    public static void main(String[] args) {
+        new DigitalClock();
+    }
+}
